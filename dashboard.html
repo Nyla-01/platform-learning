@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nyla-Tech Learning Platform</title>
+
+<style>
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+    font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+body{
+    background:#f8f9fa;
+    display:flex;
+    flex-direction:column;
+    min-height:100vh;
+}
+
+/* HEADER */
+header{
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color:white;
+    padding:15px 30px;
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    box-shadow:0 4px 20px rgba(102, 126, 234, 0.4);
+    position:sticky;
+    top:0;
+    z-index:100;
+}
+
+header h2{
+    font-size:24px;
+    font-weight:700;
+    letter-spacing:0.5px;
+}
+
+header img {
+    height:45px;
+    border-radius:50%;
+    border:2px solid white;
+}
+
+.header-right{
+    display:flex;
+    align-items:center;
+    gap:20px;
+}
+
+.user-info{
+    display:flex;
+    align-items:center;
+    gap:10px;
+    color:white;
+}
+
+.user-info span{
+    font-weight:500;
+}
+
+.logout-btn, .theme-btn{
+    padding:8px 16px;
+    background:rgba(255, 255, 255, 0.2);
+    color:white;
+    border:1px solid rgba(255, 255, 255, 0.3);
+    border-radius:6px;
+    cursor:pointer;
+    font-weight:500;
+    transition:0.3s;
+}
+
+.logout-btn:hover, .theme-btn:hover{
+    background:rgba(255, 255, 255, 0.3);
+    transform:translateY(-2px);
+}
+
+.menu-btn{
+    display:none;
+    font-size:24px;
+    cursor:pointer;
+    color:white;
+}
+
+/* MAIN LAYOUT */
+.main-container{
+    display:flex;
+    flex:1;
+    gap:20px;
+    padding:20px;
+    overflow:hidden;
+}
+
+/* SIDEBAR */
+aside{
+    width:280px;
+    background:white;
+    border-radius:15px;
+    padding:25px 15px;
+    overflow-y:auto;
+    box-shadow:0 2px 15px rgba(0,0,0,0.08);
+    transition:transform 0.3s ease;
+}
+
+.sidebar-header{
+    font-size:14px;
+    color:#999;
+    text-transform:uppercase;
+    font-weight:600;
+    margin-bottom:15px;
+    padding:0 10px;
+    letter-spacing:0.5px;
+}
+
+.search-box{
+    margin-bottom:20px;
+}
+
+.search-box input{
+    width:100%;
+    padding:12px;
+    border:2px solid #e0e0e0;
+    border-radius:8px;
+    outline:none;
+    font-size:14px;
+    transition:0.3s;
+}
+
+.search-box input:focus{
+    border-color:#667eea;
+    box-shadow:0 0 0 3px rgba(102, 126, 234, 0.1);
+}
+
+aside ul{
+    list-style:none;
+}
+
+aside li{
+    padding:12px 15px;
+    cursor:pointer;
+    margin-bottom:8px;
+    border-radius:8px;
+    display:flex;
+    align-items:center;
+    gap:12px;
+    color:#333;
+    transition:0.3s;
+    font-size:14px;
+    font-weight:500;
+}
+
+aside li:hover{
+    background:#f0f2ff;
+    transform:translateX(5px);
+}
+
+aside li.active{
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color:white;
+}
+
+/* MAIN CONTENT */
+.content{
+    flex:1;
+    overflow-y:auto;
+    display:flex;
+    flex-direction:column;
+}
+
+.dashboard-header{
+    margin-bottom:30px;
+}
+
+.dashboard-header h1{
+    font-size:32px;
+    color:#1a1a1a;
+    margin-bottom:10px;
+    font-weight:700;
+}
+
+.dashboard-header p{
+    color:#666;
+    font-size:16px;
+}
+
+/* STATS CARDS */
+.stats-container{
+    display:grid;
+    grid-template-columns:repeat(auto-fit, minmax(200px, 1fr));
+    gap:20px;
+    margin-bottom:30px;
+}
+
+.stat-card{
+    background:white;
+    padding:25px;
+    border-radius:12px;
+    box-shadow:0 2px 15px rgba(0,0,0,0.08);
+    text-align:center;
+    transition:0.3s;
+}
+
+.stat-card:hover{
+    transform:translateY(-5px);
+    box-shadow:0 8px 25px rgba(102, 126, 234, 0.2);
+}
+
+.stat-number{
+    font-size:32px;
+    font-weight:700;
+    color:#667eea;
+    margin:10px 0;
+}
+
+.stat-label{
+    color:#666;
+    font-size:14px;
+    font-weight:500;
+}
+
+.stat-icon{
+    font-size:28px;
+}
+
+/* COURSES GRID */
+.courses-section{
+    margin-bottom:30px;
+}
+
+.section-title{
+    font-size:24px;
+    color:#1a1a1a;
+    margin-bottom:20px;
+    font-weight:700;
+}
+
+.courses-grid{
+    display:grid;
+    grid-template-columns:repeat(auto-fill, minmax(280px, 1fr));
+    gap:20px;
+}
+
+.course-card{
+    background:white;
+    border-radius:12px;
+    overflow:hidden;
+    box-shadow:0 2px 15px rgba(0,0,0,0.08);
+    transition:0.3s;
+    cursor:pointer;
+}
+
+.course-card:hover{
+    transform:translateY(-8px);
+    box-shadow:0 12px 30px rgba(102, 126, 234, 0.25);
+}
+
+.course-card-banner{
+    height:150px;
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    background-size: cover;
+    background-position: center;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    font-size:50px;
+    color:white;
+    opacity:0.9;
+}
+
+.course-card-body{
+    padding:20px;
+}
+
+.course-card h3{
+    font-size:18px;
+    color:#1a1a1a;
+    margin-bottom:8px;
+    font-weight:600;
+}
+
+.course-card p{
+    font-size:13px;
+    color:#666;
+    margin-bottom:15px;
+    line-height:1.5;
+}
+
+.course-card-footer{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    font-size:13px;
+    padding-top:15px;
+    border-top:1px solid #f0f0f0;
+}
+
+.course-progress{
+    width:100%;
+    background:#f0f0f0;
+    height:6px;
+    border-radius:3px;
+    margin-bottom:10px;
+    overflow:hidden;
+}
+
+.course-progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, #667eea, #764ba2);
+}
+
+.progress-text{
+    font-size:12px;
+    color:#667eea;
+    font-weight:600;
+}
+
+.student-count{
+    color:#999;
+    font-size:12px;
+}
+
+/* CONTENT BOX */
+.content-box{
+    background:white;
+    padding:40px;
+    border-radius:15px;
+    box-shadow:0 2px 15px rgba(0,0,0,0.08);
+    text-align:center;
+    animation:fadeIn 0.4s ease;
+    max-height:80vh;
+    overflow-y:auto;
+}
+
+.content-box h2{
+    color:#667eea;
+    margin-bottom:20px;
+    font-size:28px;
+    font-weight:700;
+}
+
+.content-box h4{
+    color:#667eea;
+    margin-bottom:20px;
+    font-size:18px;
+    font-weight:600;
+}
+
+.content-box p{
+    margin-bottom:10px;
+    font-size:15px;
+    color:#555;
+    line-height:1.6;
+}
+
+.content-box ul{
+    list-style:none;
+    text-align:left;
+    margin:0 auto 25px auto;
+    width:70%;
+}
+
+.content-box ul li{
+    margin-bottom:10px;
+    padding:8px 0;
+}
+
+/* QUIZ SECTION */
+.quiz-container{
+    width:100%;
+}
+
+.quiz-header{
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    padding:30px;
+    color:white;
+    margin-bottom:30px;
+    border-radius:12px;
+}
+
+.quiz-header h3{
+    font-size:20px;
+    margin-bottom:10px;
+}
+
+.question-box{
+    background:#f9f9f9;
+    padding:25px;
+    margin:20px 0;
+    border-radius:10px;
+    border-left:4px solid #667eea;
+}
+
+.question-box h4{
+    color:#667eea;
+    margin-bottom:15px;
+    font-size:16px;
+}
+
+.options{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+}
+
+.option-label{
+    display:flex;
+    align-items:center;
+    padding:12px;
+    background:white;
+    border:2px solid #e0e0e0;
+    border-radius:8px;
+    cursor:pointer;
+    transition:0.3s;
+}
+
+.option-label:hover{
+    border-color:#667eea;
+    background:#f0f2ff;
+}
+
+.option-label input{
+    margin-right:10px;
+    cursor:pointer;
+    accent-color:#667eea;
+}
+
+.quiz-btn-group{
+    display:flex;
+    gap:10px;
+    margin-top:30px;
+    justify-content:center;
+}
+
+.submit-quiz-btn, .start-quiz-btn{
+    padding:12px 30px;
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    transition:0.3s;
+    font-size:15px;
+}
+
+.submit-quiz-btn:hover, .start-quiz-btn:hover{
+    transform:scale(1.05);
+    box-shadow:0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+.results-box{
+    background:linear-gradient(135deg, #ffffff 0%, #f0f2ff 100%);
+    padding:40px;
+    border-radius:12px;
+    text-align:center;
+    box-shadow:0 5px 20px rgba(102, 126, 234, 0.2);
+}
+
+.score-display{
+    font-size:60px;
+    color:#667eea;
+    font-weight:700;
+    margin:20px 0;
+}
+
+.score-message{
+    font-size:20px;
+    color:#333;
+    margin:20px 0;
+}
+
+.results-detail{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    margin:20px 0;
+    text-align:left;
+}
+
+/* COURSE META */
+.course-meta{
+    background:#f9f9f9;
+    padding:20px;
+    border-radius:10px;
+    margin:20px 0;
+    display:grid;
+    grid-template-columns:1fr 1fr 1fr;
+    gap:20px;
+    font-size:14px;
+}
+
+.meta-item{
+    text-align:center;
+    color:#666;
+}
+
+.meta-item strong{
+    display:block;
+    color:#667eea;
+    font-size:16px;
+    margin-bottom:5px;
+}
+
+.course-description{
+    background:#f9f9f9;
+    padding:20px;
+    border-radius:8px;
+    margin:20px 0;
+    line-height:1.6;
+    color:#555;
+}
+
+.course-content{
+    margin:20px 0;
+}
+
+.course-content h4{
+    color:#667eea;
+    margin-top:20px;
+    margin-bottom:10px;
+    font-size:16px;
+}
+
+.modules-list{
+    background:white;
+    border-left:4px solid #667eea;
+    padding:20px;
+    margin:10px 0;
+    border-radius:5px;
+}
+
+.modules-list li{
+    margin:8px 0;
+    padding:8px;
+    background:#f9f9f9;
+    border-radius:3px;
+    list-style:none;
+    padding-left:25px;
+    position:relative;
+}
+
+.modules-list li:before{
+    content:"";
+    position:absolute;
+    left:0;
+    color:#667eea;
+    font-weight:bold;
+}
+
+.progress-section{
+    background:white;
+    padding:20px;
+    border-radius:8px;
+    margin:20px 0;
+}
+
+.progress-section p{
+    margin-bottom:10px;
+    color:#666;
+}
+
+.progress-bar{
+    background:#e0e0e0;
+    border-radius:10px;
+    height:12px;
+    overflow:hidden;
+}
+
+.progress-fill{
+    height:100%;
+    background:linear-gradient(90deg, #667eea 0%, #764ba2 100%);
+    border-radius:10px;
+}
+
+.enroll-btn{
+    padding:12px 30px;
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color:white;
+    border:none;
+    border-radius:8px;
+    cursor:pointer;
+    font-weight:600;
+    font-size:15px;
+    transition:0.3s;
+}
+
+.enroll-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 8px 25px rgba(102, 126, 234, 0.4);
+}
+
+/* ANIMATION */
+@keyframes fadeIn{
+    from{opacity:0; transform:translateY(10px);}
+    to{opacity:1; transform:translateY(0);}
+}
+
+/* SCROLLBAR */
+::-webkit-scrollbar{
+    width:8px;
+}
+
+::-webkit-scrollbar-track{
+    background:#f1f1f1;
+}
+
+::-webkit-scrollbar-thumb{
+    background:#667eea;
+    border-radius:4px;
+}
+
+::-webkit-scrollbar-thumb:hover{
+    background:#764ba2;
+}
+
+/* DARK MODE THEME */
+body.dark-mode{
+    background:#1a1a1a;
+    color:#e0e0e0;
+}
+
+body.dark-mode header{
+    background:linear-gradient(135deg, #4a5568 0%, #2d3748 100%);
+}
+
+body.dark-mode aside{
+    background:#2d2d2d;
+    color:#e0e0e0;
+}
+
+body.dark-mode aside li{
+    color:#e0e0e0;
+}
+
+body.dark-mode aside li:hover{
+    background:#3d3d3d;
+}
+
+body.dark-mode aside li.active{
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+body.dark-mode .search-box input{
+    background:#3d3d3d;
+    color:#e0e0e0;
+    border-color:#4d4d4d;
+}
+
+body.dark-mode .search-box input:focus{
+    border-color:#667eea;
+    box-shadow:0 0 0 3px rgba(102, 126, 234, 0.2);
+}
+
+body.dark-mode .search-box input::placeholder{
+    color:#999;
+}
+
+body.dark-mode .content{
+    color:#e0e0e0;
+}
+
+body.dark-mode .dashboard-header h1{
+    color:#e0e0e0;
+}
+
+body.dark-mode .dashboard-header p{
+    color:#999;
+}
+
+body.dark-mode .stat-card{
+    background:#2d2d2d;
+    color:#e0e0e0;
+}
+
+body.dark-mode .stat-card:hover{
+    box-shadow:0 8px 25px rgba(102, 126, 234, 0.15);
+}
+
+body.dark-mode .stat-label{
+    color:#999;
+}
+
+body.dark-mode .section-title{
+    color:#e0e0e0;
+}
+
+body.dark-mode .course-card{
+    background:#2d2d2d;
+    color:#e0e0e0;
+}
+
+body.dark-mode .course-card h3{
+    color:#e0e0e0;
+}
+
+body.dark-mode .course-card p{
+    color:#999;
+}
+
+body.dark-mode .course-card-footer{
+    border-top-color:#3d3d3d;
+}
+
+body.dark-mode .student-count{
+    color:#666;
+}
+
+body.dark-mode .content-box{
+    background:#2d2d2d;
+    color:#e0e0e0;
+}
+
+body.dark-mode .content-box h2,
+body.dark-mode .content-box h4{
+    color:#667eea;
+}
+
+body.dark-mode .content-box p{
+    color:#ccc;
+}
+
+body.dark-mode .course-meta{
+    background:#3d3d3d;
+    color:#e0e0e0;
+}
+
+body.dark-mode .meta-item{
+    color:#999;
+}
+
+body.dark-mode .course-description{
+    background:#3d3d3d;
+    color:#ccc;
+}
+
+body.dark-mode .modules-list{
+    background:#3d3d3d;
+    border-left-color:#667eea;
+}
+
+body.dark-mode .modules-list li{
+    background:#2d2d2d;
+    color:#ccc;
+}
+
+body.dark-mode .progress-section{
+    background:#3d3d3d;
+    color:#e0e0e0;
+}
+
+body.dark-mode .progress-section p{
+    color:#999;
+}
+
+body.dark-mode .progress-bar{
+    background:#1a1a1a;
+}
+
+body.dark-mode .question-box{
+    background:#3d3d3d;
+    border-left-color:#667eea;
+    color:#e0e0e0;
+}
+
+body.dark-mode .question-box h4{
+    color:#667eea;
+}
+
+body.dark-mode .option-label{
+    background:#2d2d2d;
+    border-color:#4d4d4d;
+    color:#e0e0e0;
+}
+
+body.dark-mode .option-label:hover{
+    background:#3d3d3d;
+    border-color:#667eea;
+}
+
+body.dark-mode .quiz-header{
+    background:linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color:white;
+}
+
+body.dark-mode .results-box{
+    background:linear-gradient(135deg, #2d2d2d 0%, #3d3d3d 100%);
+    color:#e0e0e0;
+    box-shadow:0 5px 20px rgba(102, 126, 234, 0.15);
+}
+
+body.dark-mode .results-detail{
+    background:#1a1a1a;
+    color:#e0e0e0;
+}
+
+body.dark-mode ::-webkit-scrollbar-track{
+    background:#2d2d2d;
+}
+
+body.dark-mode ::-webkit-scrollbar-thumb{
+    background:#667eea;
+}
+
+/* MOBILE RESPONSIVENESS */
+@media(max-width:900px){
+    .main-container{
+        gap:15px;
+    }
+
+    aside{
+        width:200px;
+    }
+
+    .stats-container{
+        grid-template-columns:repeat(auto-fit, minmax(150px, 1fr));
+    }
+
+    .courses-grid{
+        grid-template-columns:repeat(auto-fill, minmax(220px, 1fr));
+    }
+}
+
+@media(max-width:768px){
+    .menu-btn{
+        display:block;
+    }
+
+    .main-container{
+        flex-direction:column;
+    }
+
+    aside{
+        position:fixed;
+        top:60px;
+        left:0;
+        height:calc(100vh - 60px);
+        width:250px;
+        z-index:999;
+        transform:translateX(-100%);
+        transition:transform 0.3s ease;
+    }
+
+    aside.show{
+        transform:translateX(0);
+    }
+
+    .dashboard-header h1{
+        font-size:24px;
+    }
+
+    .courses-grid{
+        grid-template-columns:repeat(auto-fill, minmax(200px, 1fr));
+    }
+
+    .course-meta{
+        grid-template-columns:1fr;
+    }
+
+    .content-box ul{
+        width:90%;
+    }
+}
+
+@media(max-width:600px){
+    header{
+        padding:10px 15px;
+    }
+
+    header h2{
+        font-size:18px;
+    }
+
+    .header-right{
+        gap:10px;
+    }
+
+    .user-info{
+        display:none;
+    }
+
+    .logout-btn{
+        padding:6px 12px;
+        font-size:12px;
+    }
+
+    .dashboard-header h1{
+        font-size:22px;
+    }
+
+    .stats-container{
+        grid-template-columns:1fr;
+    }
+
+    .courses-grid{
+        grid-template-columns:1fr;
+    }
+
+    .content-box{
+        padding:20px;
+    }
+}
+</style>
+
+<link rel="shortcut icon" href="image/Your paragraph text-1.png" type="image/x-icon">
+</head>
+
+<body>
+
+<header>
+    <h2>Nyla-Tech</h2>
+    <div class="header-right">
+        <div class="user-info">
+            <span id="userDisplayName">User</span>
+        </div>
+        <button onclick="toggleTheme()" class="theme-btn"> Theme</button>
+        <button class="logout-btn" onclick="logout()">Logout</button>
+        <div class="menu-btn" onclick="toggleSidebar()">☰</div>
+    </div>
+</header>
+
+<div class="main-container">
+    <aside id="sidebar">
+        <div class="sidebar-header">Browse Courses</div>
+
+        <!-- SEARCH -->
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="Search courses..." onkeyup="searchCourses()">
+        </div>
+
+        <!-- COURSE LIST -->
+        <ul id="courseList">
+            <li onclick="showCourse('cyber', this)">Cyber Security</li>
+            <li onclick="showCourse('webdev', this)">Web Development</li>
+            <li onclick="showCourse('uiux', this)">UI/UX Design</li>
+            <li onclick="showCourse('datasci', this)">Data Science</li>
+            <li onclick="showCourse('ai', this)">Artificial Intelligence</li>
+            <li onclick="showCourse('ml', this)">Machine Learning</li>
+            <li onclick="showCourse('cloud', this)">Cloud Computing</li>
+            <li onclick="showCourse('mobile', this)">Mobile Development</li>
+            <li onclick="showCourse('blockchain', this)">Blockchain</li>
+            <li onclick="showCourse('ethical', this)">Ethical Hacking</li>
+            <li onclick="showCourse('network', this)">Networking</li>
+            <li onclick="showCourse('devops', this)">DevOps</li>
+            <li onclick="showCourse('graphics', this)">Graphics Design</li>
+            <li onclick="showCourse('python', this)">Python Programming</li>
+            <li onclick="showCourse('software', this)">Software Engineering</li>
+        </ul>
+    </aside>
+
+    <div class="content" id="mainContent">
+        <!-- Dashboard Home View -->
+        <div id="dashboardHome" style="display: block;">
+            <div class="dashboard-header">
+                <h1 id="welcomeUser">Welcome Back!</h1>
+                <p>Continue your learning journey and explore new courses</p>
+            </div>
+
+            <div class="stats-container">
+                <div class="stat-card">
+                    <div class="stat-icon"><img src="image/courses.jpg" alt="Courses" style="width: 28px; height: 28px; object-fit: cover; border-radius: 4px;"></div>
+                    <div class="stat-number">15</div>
+                    <div class="stat-label">Courses Available</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><img src="image/clock.jpg" alt="Hours" style="width: 28px; height: 28px; object-fit: cover; border-radius: 4px;"></div>
+                    <div class="stat-number">156+</div>
+                    <div class="stat-label">Learning Hours</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><img src="image/cert.jpg" alt="Certificates" style="width: 28px; height: 28px; object-fit: cover; border-radius: 4px;"></div>
+                    <div class="stat-number">0</div>
+                    <div class="stat-label">Certificates Earned</div>
+                </div>
+                <div class="stat-card">
+                    <div class="stat-icon"><img src="image/progress.jpg" alt="Progress" style="width: 28px; height: 28px; object-fit: cover; border-radius: 4px;"></div>
+                    <div class="stat-number">0%</div>
+                    <div class="stat-label">Overall Progress</div>
+                </div>
+            </div>
+
+            <div class="courses-section">
+                <h2 class="section-title">Featured Courses</h2>
+                <div class="courses-grid" id="featuredCourses"></div>
+            </div>
+
+            <div class="courses-section">
+                <h2 class="section-title">Popular Courses</h2>
+                <div class="courses-grid" id="popularCourses"></div>
+            </div>
+        </div>
+
+        <!-- Course Detail View -->
+        <div id="courseDetailView" style="display: none;">
+            <div class="content-box" id="courseContent"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+// Get all course data
+function getCourseData(){
+    return {
+        cyber:{title:"Cyber Security",desc:"Protect networks and systems from cyberattacks. Learn industry-standard security practices.",duration:"12 weeks",level:"Intermediate",students:"2,450+",functions:["Network security","Penetration testing","Threat analysis","Risk assessment"],achieve:"Become a Cyber Security Analyst.",modules:["Module 1: Network Fundamentals & Security Basics","Module 2: Firewalls & Intrusion Detection","Module 3: Cryptography & Encryption","Module 4: Penetration Testing Techniques","Module 5: Incident Response & Recovery"],progress:35},
+        webdev:{title:"Web Development",desc:"Build modern, responsive websites with the latest technologies and best practices.",duration:"10 weeks",level:"Beginner",students:"5,200+",functions:["HTML, CSS, JS","Backend","Databases","API Development"],achieve:"Become a Full Stack Developer.",modules:["Module 1: HTML5 & CSS3 Fundamentals","Module 2: JavaScript ES6+","Module 3: Responsive Design & Frameworks","Module 4: Backend Development (Node.js)","Module 5: Database Design & SQL"],progress:50},
+        uiux:{title:"UI/UX Design",desc:"Design beautiful and intuitive user interfaces. Master design thinking and user research.",duration:"8 weeks",level:"Beginner",students:"1,890+",functions:["Wireframes","Prototypes","User Research","Visual Design"],achieve:"Become a UI/UX Designer.",modules:["Module 1: Design Principles & User Psychology","Module 2: Wireframing & Prototyping Tools","Module 3: Visual Design & Typography","Module 4: User Research & Testing","Module 5: Design Systems & Components"],progress:65},
+        datasci:{title:"Data Science",desc:"Analyze complex data and extract meaningful insights using Python and statistical methods.",duration:"14 weeks",level:"Advanced",students:"3,120+",functions:["Data analysis","Visualization","ML basics","Statistical Analysis"],achieve:"Become a Data Scientist.",modules:["Module 1: Statistics & Probability","Module 2: Python for Data Analysis (Pandas, NumPy)","Module 3: Data Visualization (Matplotlib, Seaborn)","Module 4: Machine Learning Fundamentals","Module 5: Advanced Analytics & Prediction Models"],progress:40},
+        ai:{title:"Artificial Intelligence",desc:"Build intelligent systems and learn about neural networks, deep learning, and AI applications.",duration:"16 weeks",level:"Advanced",students:"2,650+",functions:["AI models","Automation","Neural networks","NLP Basics"],achieve:"Become an AI Engineer.",modules:["Module 1: AI Fundamentals & Logic","Module 2: Machine Learning Basics","Module 3: Deep Learning & Neural Networks","Module 4: Natural Language Processing","Module 5: Computer Vision Applications"],progress:30},
+        ml:{title:"Machine Learning",desc:"Teach systems to learn from data. Master supervised and unsupervised learning techniques.",duration:"12 weeks",level:"Intermediate",students:"3,890+",functions:["Supervised learning","Model training","Predictions","Feature Engineering"],achieve:"Become an ML Engineer.",modules:["Module 1: ML Fundamentals & Algorithms","Module 2: Supervised Learning (Regression & Classification)","Module 3: Unsupervised Learning & Clustering","Module 4: Model Evaluation & Optimization","Module 5: Real-world ML Projects"],progress:55},
+        cloud:{title:"Cloud Computing",desc:"Deploy and manage applications in the cloud using AWS, Azure, and modern DevOps practices.",duration:"10 weeks",level:"Intermediate",students:"4,120+",functions:["AWS","Azure","Cloud security","Serverless Architecture"],achieve:"Become a Cloud Engineer.",modules:["Module 1: Cloud Computing Fundamentals","Module 2: AWS Core Services (EC2, S3, RDS)","Module 3: Cloud Architecture & Design","Module 4: Security & Compliance","Module 5: Auto-scaling & Load Balancing"],progress:70},
+        mobile:{title:"Mobile Development",desc:"Build Android & iOS apps using modern frameworks and cross-platform solutions.",duration:"12 weeks",level:"Intermediate",students:"2,340+",functions:["Flutter","React Native","App Publishing","Mobile UI"],achieve:"Become a Mobile Developer.",modules:["Module 1: Mobile Development Fundamentals","Module 2: Flutter & Dart Basics","Module 3: React Native Framework","Module 4: APIs & Backend Integration","Module 5: App Deployment & Publishing"],progress:45},
+        blockchain:{title:"Blockchain",desc:"Develop decentralized systems and smart contracts on blockchain platforms.",duration:"13 weeks",level:"Advanced",students:"1,560+",functions:["Smart contracts","Crypto","DApps","Solidity Programming"],achieve:"Become a Blockchain Developer.",modules:["Module 1: Blockchain Fundamentals","Module 2: Cryptocurrency & Wallets","Module 3: Smart Contracts (Solidity)","Module 4: DApp Development","Module 5: Blockchain Security & Best Practices"],progress:25},
+        ethical:{title:"Ethical Hacking",desc:"Professional penetration testing and security auditing. Master ethical hacking methodologies.",duration:"14 weeks",level:"Advanced",students:"2,110+",functions:["Scanning & Enumeration","Exploitation","Auditing","Security testing"],achieve:"Become an Ethical Hacker.",modules:["Module 1: Hacking Fundamentals & Methodology","Module 2: Reconnaissance & Scanning","Module 3: Exploitation Techniques","Module 4: Post-exploitation & Lateral Movement","Module 5: Reporting & Remediation"],progress:60},
+        network:{title:"Networking",desc:"Manage and design network systems with deep knowledge of protocols and architecture.",duration:"11 weeks",level:"Intermediate",students:"2,780+",functions:["LAN/WAN","Routing & Switching","Troubleshooting","Network Security"],achieve:"Become a Network Engineer.",modules:["Module 1: OSI Model & Network Fundamentals","Module 2: IP Addressing & Subnetting","Module 3: Routing & Switching Protocols","Module 4: Network Configuration & Management","Module 5: Network Security & Monitoring"],progress:48},
+        devops:{title:"DevOps",desc:"Bridge development and operations. Master CI/CD pipelines, containerization, and orchestration.",duration:"11 weeks",level:"Intermediate",students:"3,450+",functions:["CI/CD Pipelines","Docker & Containers","Kubernetes","Infrastructure as Code"],achieve:"Become a DevOps Engineer.",modules:["Module 1: DevOps Philosophy & Principles","Module 2: Version Control (Git) & Collaboration","Module 3: Docker & Containerization","Module 4: Kubernetes & Orchestration","Module 5: CI/CD with Jenkins & GitLab"],progress:75},
+        graphics:{title:"Graphics Design",desc:"Create stunning visual designs and branding materials using professional design tools.",duration:"9 weeks",level:"Beginner",students:"1,670+",functions:["Adobe Creative Suite","Branding","Typography","Motion Graphics"],achieve:"Become a Graphics Designer.",modules:["Module 1: Design Fundamentals & Color Theory","Module 2: Adobe Photoshop Essentials","Module 3: Adobe Illustrator & Vector Design","Module 4: Branding & Logo Design","Module 5: Print & Digital Design Projects"],progress:82},
+        python:{title:"Python Programming",desc:"Master Python from basics to advanced concepts. Build real-world applications.",duration:"10 weeks",level:"Beginner",students:"6,890+",functions:["Automation","Web apps","Data handling","OOP Concepts"],achieve:"Become a Python Developer.",modules:["Module 1: Python Basics & Syntax","Module 2: Data Structures & Algorithms","Module 3: Object-Oriented Programming","Module 4: Web Development with Django/Flask","Module 5: Automation & Scripting Projects"],progress:88},
+        software:{title:"Software Engineering",desc:"Build scalable systems with best practices in design, testing, and project management.",duration:"15 weeks",level:"Advanced",students:"2,550+",functions:["System design","Testing & QA","Design Patterns","Project Management"],achieve:"Become a Software Engineer.",modules:["Module 1: Software Development Lifecycle","Module 2: System Design & Architecture","Module 3: Design Patterns & Best Practices","Module 4: Testing & Quality Assurance","Module 5: Agile & Scrum Methodologies"],progress:52}
+    };
+}
+
+// Generate course cards
+function generateCourseCards(courseIds){
+    const courses = getCourseData();
+    let html = '';
+    courseIds.forEach(id => {
+        let course = courses[id];
+        if(course){
+            const imageUrl = getCourseImage(id);
+            html += `
+                <div class="course-card" onclick="showCourse('${id}', this)">
+                    <div class="course-card-banner" style="background-image: url('${imageUrl}');"></div>
+                    <div class="course-card-body">
+                        <h3>${course.title}</h3>
+                        <p>${course.desc.substring(0, 50)}...</p>
+                        <div class="course-progress">
+                            <div class="course-progress-fill" style="width: ${course.progress}%"></div>
+                        </div>
+                        <div class="course-card-footer">
+                            <span class="progress-text">${course.progress}% done</span>
+                            <span class="student-count">${course.students}</span>
+                        </div>
+                    </div>
+                </div>
+            `;
+        }
+    });
+    return html;
+}
+
+// Get course images
+function getCourseImage(courseId){
+    const images = {
+        cyber:'image/AI.jpg',
+        webdev:'image/web dev.jpg',
+        uiux:'image/uiux.jpg',
+        datasci:'image/data science.jpg',
+        ai:'image/AI.jpg',
+        ml:'image/machine%20learning.jpg',
+        cloud:'image/cloud%20computing.jpg',
+        mobile:'image/mobile dev.jpg',
+        blockchain:'image/block chain.jpg',
+        ethical:'image/ethical hacking.jpg',
+        network:'image/AI.jpg',
+        devops:'image/devOps.jpg',
+        graphics:'image/graphics design.jpg',
+        python:'image/python.jpg',
+        software:'image/AI.jpg'
+    };
+    return images[courseId] || 'image/courses.jpg';
+}
+
+
+// Initialize dashboard
+function initDashboard(){
+    let featured = ['webdev','python','datasci','ai','cloud','ml'];
+    let popular = ['uiux','mobile','ethical','blockchain','devops','graphics'];
+    document.getElementById('featuredCourses').innerHTML = generateCourseCards(featured);
+    document.getElementById('popularCourses').innerHTML = generateCourseCards(popular);
+}
+
+// Logout
+function logout(){
+    localStorage.removeItem("studentName");
+    localStorage.removeItem("userData");
+    localStorage.removeItem("isLoggedIn");
+    window.location.href = "index.html";
+}
+
+// Check login
+function checkLogin(){
+    if(!localStorage.getItem("isLoggedIn")){
+        window.location.href = "login.html";
+    }
+}
+
+// Display user info
+function displayUserInfo(){
+    let userData = localStorage.getItem("userData");
+    if(userData){
+        let user = JSON.parse(userData);
+        document.getElementById("welcomeUser").innerText = "Welcome Back, " + user.fullName + "! 👋";
+        document.getElementById("userDisplayName").innerText = user.fullName;
+    }
+}
+
+// Toggle sidebar
+function toggleSidebar(){
+    document.getElementById("sidebar").classList.toggle("show");
+}
+
+// Search courses
+function searchCourses(){
+    let input = document.getElementById("searchInput").value.toLowerCase();
+    document.querySelectorAll("#courseList li").forEach(item=>{
+        item.style.display = item.textContent.toLowerCase().includes(input) ? "flex" : "none";
+    });
+}
+
+// Show course
+function showCourse(courseId, element){
+    if(element){
+        document.querySelectorAll("#courseList li").forEach(li => li.classList.remove("active"));
+        element.classList.add("active");
+    }
+    document.getElementById("sidebar").classList.remove("show");
+    
+    const courses = getCourseData();
+    const course = courses[courseId];
+    
+    if(!course) return;
+    
+    document.getElementById('dashboardHome').style.display = 'none';
+    document.getElementById('courseDetailView').style.display = 'block';
+    
+    document.getElementById("courseContent").innerHTML = `
+<div class="content-box">
+    <h2>${course.title}</h2>
+    <p style="font-size: 16px; color: #666; margin-bottom: 20px;">${course.desc}</p>
+
+    <div class="course-meta">
+        <div class="meta-item"><strong>Duration</strong><span>${course.duration}</span></div>
+        <div class="meta-item"><strong>Level</strong><span>${course.level}</span></div>
+        <div class="meta-item"><strong>Students</strong><span>${course.students}</span></div>
+    </div>
+
+    <div class="progress-section">
+        <p><strong>Your Progress</strong></p>
+        <div class="progress-bar"><div class="progress-fill" style="width: ${course.progress}%"></div></div>
+        <p style="margin-top: 8px; color: #667eea; font-weight: bold;">${course.progress}% Complete</p>
+    </div>
+
+    <div class="course-content">
+        <h4>Course Modules</h4>
+        <ul class="modules-list">
+            ${course.modules.map(m => `<li>${m}</li>`).join("")}
+        </ul>
+    </div>
+
+    <div class="course-content">
+        <h4>Key Topics</h4>
+        <ul style="list-style: none; padding: 0;">
+            ${course.functions.map(f => `<li style="padding: 8px 0; color: #555;">${f}</li>`).join("")}
+        </ul>
+    </div>
+
+    <div class="quiz-btn-group">
+        <button class="start-quiz-btn" onclick="startQuiz('${courseId}')">Start Quiz</button>
+        <button class="enroll-btn" onclick="enrollCourse()">Enroll Now</button>
+        <button class="enroll-btn" onclick="backToDashboard()" style="background: #999;">Back</button>
+    </div>
+
+    <div id="quizSection"></div>
+
+    <p style="margin-top: 30px; color: #999; font-size: 14px;">${course.achieve}</p>
+</div>
+`;
+}
+
+// Back to dashboard
+function backToDashboard(){
+    document.getElementById('dashboardHome').style.display = 'block';
+    document.getElementById('courseDetailView').style.display = 'none';
+    document.querySelectorAll("#courseList li").forEach(li => li.classList.remove("active"));
+}
+
+// Enroll course
+function enrollCourse(){
+    alert("✅ Successfully Enrolled!");
+}
+
+// Quiz data
+const quizzes = {
+    cyber: [{question: "What does a firewall do in network security?",options: ["Encrypts data", "Blocks unauthorized access", "Increases internet speed", "Manages passwords"],correct: 1},{question: "What is penetration testing?",options: ["Breaking encryption", "Authorised security testing", "Virus creation", "Data theft"],correct: 1},{question: "What is a VPN used for?",options: ["Gaming only", "Increasing bandwidth", "Encrypting internet connection", "Deleting files"],correct: 2},{question: "What is a zero-day exploit?",options: ["Free software", "Newly discovered vulnerability", "Old security patch", "Antivirus software"],correct: 1},{question: "What does DDoS stand for?",options: ["Data Defense System", "Distributed Denial of Service", "Digital Data Security", "Direct Data Stream"],correct: 1}],
+    webdev: [{question: "What does HTML stand for?",options: ["Hyper Text Markup Language", "High Tech Modern Language", "Home Tool Markup Language", "Hyperlinks and Text Markup Language"],correct: 0},{question: "Which is used for styling?",options: ["JavaScript", "CSS", "HTML", "Python"],correct: 1},{question: "What does REST API stand for?",options: ["Representational State Transfer API", "Remote Extension System Transfer", "Reliable External Service Tool", "Real Time Electronic Sharing Technology"],correct: 0},{question: "Which database is NoSQL?",options: ["MySQL", "PostgreSQL", "MongoDB", "Oracle"],correct: 2},{question: "What is the purpose of CORS?",options: ["Content Optimization", "Cross-Origin Resource Sharing", "Cache Organization", "Core Object Rendering System"],correct: 1}],
+    python: [{question: "What is Python primarily used for?",options: ["Game development only", "General-purpose programming", "Web design", "System administration"],correct: 1},{question: "What does PEP 8 define?",options: ["Python version", "Style guide", "Function syntax", "Module structure"],correct: 1},{question: "How do you create a list?",options: ["(1, 2, 3)", "{1, 2, 3}", "[1, 2, 3]", "<1, 2, 3>"],correct: 2},{question: "What is a lambda function?",options: ["Anonymous function", "Loop function", "Error function", "Main function"],correct: 0},{question: "What is pip?",options: ["Programming interface", "Package manager", "Python interpreter", "Program interface protocol"],correct: 1}],
+    uiux: [{question: "What is UX design focused on?",options: ["Making things beautiful", "User experience and usability", "Coding interfaces", "Color selection"],correct: 1},{question: "What is a wireframe?",options: ["Final design", "Low-fidelity layout", "High-resolution mockup", "Interactive prototype"],correct: 1},{question: "Which principle emphasizes consistency?",options: ["Contrast", "Alignment", "Consistency", "Hierarchy"],correct: 2},{question: "What is user research used for?",options: ["Marketing", "Understanding user needs", "Coding", "Project management"],correct: 1},{question: "What is a design system?",options: ["Operating system", "Reusable design components", "Programming framework", "Database structure"],correct: 1}],
+    datasci: [{question: "What is the main goal of data science?",options: ["Storing data", "Extracting insights from data", "Deleting data", "Encrypting data"],correct: 1},{question: "Which is a Python library?",options: ["Django", "Pandas", "Flask", "NumPy"],correct: 1},{question: "What is overfitting?",options: ["Too few features", "Model fits training data too closely", "Not enough data", "Wrong algorithm"],correct: 1},{question: "What does EDA stand for?",options: ["Error Data Analysis", "Exploratory Data Analysis", "Electronic Data Assessment", "Essential Data Application"],correct: 1},{question: "What is feature engineering?",options: ["Writing code", "Creating meaningful features", "Deleting columns", "Database design"],correct: 1}],
+    ai: [{question: "What is Artificial Intelligence?",options: ["Human intelligence", "Machine simulation of intelligence", "Computer speed", "Memory storage"],correct: 1},{question: "Neural networks inspired by?",options: ["Computers", "Human brain", "Mathematics", "Physics"],correct: 1},{question: "What is supervised learning?",options: ["Without labels", "With labeled training data", "Without algorithms", "Random learning"],correct: 1},{question: "What does NLP stand for?",options: ["Network Learning Protocol", "Natural Language Processing", "Neural Logic Programming", "Numerical Language Parsing"],correct: 1},{question: "What is deep learning?",options: ["Large datasets", "Machine learning with neural networks", "Psychology", "Database management"],correct: 1}],
+    ml: [{question: "What is machine learning?",options: ["Manual programming", "Learning from data without explicit code", "Operating system", "Hardware"],correct: 1},{question: "Regression vs Classification?",options: ["No difference", "Regression predicts values, classification predicts categories", "Same thing", "Regression is faster"],correct: 1},{question: "Cross-validation used for?",options: ["Data storage", "Model evaluation", "Data cleaning", "Feature scaling"],correct: 1},{question: "What is a decision tree?",options: ["Tree data structure", "Supervised learning algorithm", "Plant biology", "Software library"],correct: 1},{question: "What is clustering?",options: ["Labeling data", "Grouping unlabeled data", "Deleting data", "Sorting"],correct: 1}],
+    cloud: [{question: "What is cloud computing?",options: ["Storage in clouds", "On-demand computing services online", "Weather systems", "Internet connection"],correct: 1},{question: "What does AWS stand for?",options: ["Advanced Web Services", "Amazon Web Services", "Automated Work System", "Accessible Web Support"],correct: 1},{question: "What is EC2?",options: ["Email system", "Virtual computer in cloud", "Storage service", "Database"],correct: 1},{question: "What is scalability?",options: ["Cost reduction", "Ability to handle growth", "Speed", "Security"],correct: 1},{question: "What does SaaS stand for?",options: ["Software as a Service", "System and a Server", "Security as a Solution", "Storage and Software"],correct: 0}],
+    mobile: [{question: "What is Flutter?",options: ["Animation software", "Mobile development framework", "Database", "Browser"],correct: 1},{question: "React Native uses?",options: ["Java", "Swift", "JavaScript", "Kotlin"],correct: 2},{question: "What is APK?",options: ["Apple app", "Android Package", "Application Program", "API Key"],correct: 1},{question: "Responsive design?",options: ["Fast loading", "Works on all screen sizes", "Security feature", "Animation"],correct: 1},{question: "Native app development?",options: ["Web-based", "Platform-specific code", "Low performance", "No testing needed"],correct: 1}],
+    blockchain: [{question: "What is blockchain?",options: ["Chain of blocks", "Distributed ledger technology", "Cryptocurrency", "Database"],correct: 1},{question: "What is smart contract?",options: ["Regular contract", "Self-executing code on blockchain", "Legal document", "Agreement"],correct: 1},{question: "What is proof of work?",options: ["Document", "Consensus mechanism", "Code", "Password"],correct: 1},{question: "Miner does?",options: ["Dig", "Validate and record transactions", "Store coins", "Print money"],correct: 1},{question: "Cryptocurrency?",options: ["Secret codes", "Digital currency using cryptography", "Currency exchange", "Bank"],correct: 1}],
+    ethical: [{question: "What is ethical hacking?",options: ["Illegal hacking", "Authorized security testing", "Computer repair", "Software development"],correct: 1},{question: "Reconnaissance?",options: ["Attack", "Information gathering", "Exploitation", "Defense"],correct: 1},{question: "Vulnerability?",options: ["Strong security", "Weakness that can be exploited", "Algorithm", "Code"],correct: 1},{question: "Vulnerability scanner?",options: ["Adds security", "Finds security weaknesses", "Encrypts data", "Deletes viruses"],correct: 1},{question: "Bug bounty?",options: ["Insect reward", "Payment for finding vulnerabilities", "Software bug", "Patch"],correct: 1}],
+    network: [{question: "OSI model?",options: ["Operating System Interface", "7-layer network communication model", "Online Service Integration", "Object Security Index"],correct: 1},{question: "IP addressing?",options: ["Email system", "Unique identifier for devices", "Internet protocol", "Password"],correct: 1},{question: "TCP/IP stands for?",options: ["Text Communication Protocol", "Transmission Control Protocol/Internet Protocol", "Technology and Computing", "Total Connection Protocol"],correct: 1},{question: "Subnet mask?",options: ["Security measure", "Divides network into subnetworks", "Password", "Encryption"],correct: 1},{question: "Routing?",options: ["Disk storage", "Path determination for data packets", "File management", "Memory"],correct: 1}],
+    devops: [{question: "DevOps?",options: ["Operations only", "Development and Operations collaboration", "Development only", "Database"],correct: 1},{question: "CI/CD?",options: ["Compact Disc", "Continuous Integration/Continuous Deployment", "Computer Interface", "Code Installation"],correct: 1},{question: "Docker?",options: ["Harbor tool", "Containerization platform", "Database", "Server"],correct: 1},{question: "Kubernetes?",options: ["Programming language", "Container orchestration platform", "Database", "Framework"],correct: 1},{question: "Infrastructure as Code?",options: ["Code storage", "Managing infrastructure through code", "Programming", "Algorithm"],correct: 1}],
+    graphics: [{question: "Photo editing?",options: ["Illustrator", "Photoshop", "InDesign", "XD"],correct: 1},{question: "Vector graphics?",options: ["Raster images", "Scalable graphics using mathematical curves", "Photographs", "Video"],correct: 1},{question: "Print color model?",options: ["RGB", "HSL", "CMYK", "LAB"],correct: 2},{question: "Typography?",options: ["Photography", "Art of using typefaces", "Printing", "Design software"],correct: 1},{question: "White space?",options: ["Empty space", "Strategic empty space for clarity", "Background color", "Light color"],correct: 1}],
+    software: [{question: "SDLC?",options: ["Software Design Language", "Software Development Life Cycle", "System Design", "Coding"],correct: 1},{question: "Design pattern?",options: ["Visual design", "Reusable solution to a problem", "Code", "Algorithm"],correct: 1},{question: "Unit testing?",options: ["Full application test", "Testing individual components", "User testing", "Performance testing"],correct: 1},{question: "Refactoring?",options: ["Creating new code", "Improving existing code without changing function", "Deleting code", "Optimization"],correct: 1},{question: "Version control?",options: ["App update", "Managing code changes", "Backup", "Compression"],correct: 1}]
+};
+
+// Start quiz
+function startQuiz(course){
+    if(!quizzes[course]) return;
+    let quiz = quizzes[course];
+    let quizHTML = `<div class="quiz-container"><div class="quiz-header"><h3>Course Quiz</h3><p>Answer these ${quiz.length} questions</p></div>`;
+    quiz.forEach((q, i) => {
+        quizHTML += `<div class="question-box"><h4>Q${i + 1}: ${q.question}</h4><div class="options">${q.options.map((o, j) => `<label class="option-label"><input type="radio" name="q${i}" value="${j}" required> ${o}</label>`).join("")}</div></div>`;
+    });
+    quizHTML += `<div class="quiz-btn-group"><button class="submit-quiz-btn" onclick="submitQuiz('${course}')">Submit</button><button class="enroll-btn" onclick="cancelQuiz()">Cancel</button></div>`;
+    document.getElementById("quizSection").innerHTML = quizHTML;
+}
+
+// Submit quiz
+function submitQuiz(course){
+    let quiz = quizzes[course];
+    let score = 0, answers = [];
+    for(let i = 0; i < quiz.length; i++){
+        let selected = document.querySelector(`input[name="q${i}"]:checked`);
+        if(!selected){alert("Answer all questions!"); return;}
+        let answer = parseInt(selected.value);
+        let correct = quiz[i].correct;
+        answers.push({question: quiz[i].question,userAnswer: quiz[i].options[answer],correctAnswer: quiz[i].options[correct],isCorrect: answer === correct});
+        if(answer === correct) score++;
+    }
+    let percentage = Math.round((score / quiz.length) * 100);
+    let message = percentage >= 80 ? "Excellent!" : percentage >= 60 ? "Good!" : percentage >= 40 ? "Keep Learning!" : "Try Again!";
+    let resultHTML = `<div class="results-box"><h3>Results</h3><div class="score-display">${score}/${quiz.length}</div><div class="score-message">${percentage}% - ${message}</div><div class="results-detail"><h4 style="color: #667eea;">Answer Review:</h4>`;
+    answers.forEach((a, i) => {
+        resultHTML += `<p style="margin: 15px 0; padding: 10px; background: #f9f9f9; border-radius: 5px;"><strong style="color: ${a.isCorrect ? 'green' : 'red'};"> ${a.isCorrect ? '✅' : '❌'} Q${i + 1}</strong><br>Your answer: ${a.userAnswer}${!a.isCorrect ? `<br>Correct: <span style="color: green;">${a.correctAnswer}</span>` : ""}</p>`;
+    });
+    resultHTML += `</div><button class="enroll-btn" onclick="location.reload()">Back</button></div>`;
+    document.getElementById("quizSection").innerHTML = resultHTML;
+}
+
+// Cancel quiz
+function cancelQuiz(){
+    document.getElementById("quizSection").innerHTML = "";
+}
+
+// Toggle theme
+function toggleTheme(){
+    document.body.classList.toggle("dark-mode");
+    const isDarkMode = document.body.classList.contains("dark-mode");
+    localStorage.setItem("themeMode", isDarkMode ? "dark" : "light");
+}
+
+// Load saved theme preference
+function loadThemePreference(){
+    const savedTheme = localStorage.getItem("themeMode");
+    if(savedTheme === "dark"){
+        document.body.classList.add("dark-mode");
+    }
+}
+
+// Initialize
+window.onload = function(){
+    loadThemePreference();
+    checkLogin();
+    displayUserInfo();
+    initDashboard();
+}
+</script>
+
+</body>
+</html>
